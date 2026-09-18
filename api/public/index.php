@@ -11,6 +11,8 @@ require_once "../src/Router.php";
 require_once "../src/Controllers/UserController.php";
 require_once "../src/Controllers/ProductoController.php";
 require_once "../src/Controllers/ClienteController.php";
+require_once "../src/Controllers/EmpleadoController.php";
+
 
 use App\Router;
 
@@ -25,6 +27,9 @@ $route->add('POST','/productos','ProductoController@add');
 $route->add('DELETE','/productos/{id}','ProductoController@eliminar'); 
 //direccion de clientes
 $route->add('GET','/clientes','ClienteController@getAll');
+
+//direccion de empleados
+$route->add('GET','/empleados','EmpleadoController@getAll');
 
 
 $route->run();
