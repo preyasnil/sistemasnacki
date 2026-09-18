@@ -1,0 +1,150 @@
+DROP DATABASE IF EXISTS DBsistemasnack;
+CREATE DATABASE DBsistemasnack;
+USE DBsistemasnack;
+
+-- =========================================================================
+-- 1. CREACIÓN DE TABLAS
+-- =========================================================================
+
+CREATE TABLE CLIENTES(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    ci VARCHAR(20) NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL,
+    direccion VARCHAR(250),
+    telefono VARCHAR(15)
+) ENGINE=InnoDB;
+
+CREATE TABLE EMPLEADOS(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    ci VARCHAR(20) NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE USUARIOS(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    estado BOOLEAN DEFAULT TRUE,
+    cod_empleado INT NOT NULL,
+    FOREIGN KEY(cod_empleado) REFERENCES EMPLEADOS(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE PRODUCTOS(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    codBarras VARCHAR(100) NOT NULL UNIQUE,
+    descripcion VARCHAR(100) NOT NULL,
+    stock INT NOT NULL CHECK(stock >= 0),
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    creado_por INT,
+    fecha_registro DATETIME DEFAULT NOW(),
+    FOREIGN KEY(creado_por) REFERENCES USUARIOS(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE PEDIDOS(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_cliente INT NOT NULL,
+    fecha_compra DATETIME NOT NULL,
+    cantidad INT NOT NULL, -- Nota: Generalmente la cantidad total se calcula, pero mantenemos tu lógica
+    cod_empleado INT NOT NULL,
+    creado_por INT,
+    FOREIGN KEY(cod_cliente) REFERENCES CLIENTES(id),
+    FOREIGN KEY(cod_empleado) REFERENCES EMPLEADOS(id),
+    FOREIGN KEY(creado_por) REFERENCES USUARIOS(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE PEDIDO_PRODUCTOS(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_producto INT NOT NULL,
+    cod_pedido INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    descuento DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY(cod_producto) REFERENCES PRODUCTOS(id),
+    FOREIGN KEY(cod_pedido) REFERENCES PEDIDOS(id)
+) ENGINE=InnoDB;
+
+
+-- =========================================================================
+-- 2. INSERCIÓN DE DATOS DE PRUEBA (10 REGISTROS POR TABLA)
+-- =========================================================================
+
+-- 10 Empleados
+INSERT INTO EMPLEADOS (ci, nombre, apellidos) VALUES
+('1001', 'Carlos', 'Mendoza Arce'),
+('1002', 'Ana Maria', 'Gomez Torrico'),
+('1003', 'Juan Pablo', 'Rojas Vargas'),
+('1004', 'Laura Elena', 'Castro Justiniano'),
+('1005', 'Luis Fernando', 'Suarez Flores'),
+('1006', 'Sofia Belen', 'Mamani Quispe'),
+('1007', 'Diego Armando', 'Pinto Roca'),
+('1008', 'Maria Rene', 'Gutierrez Soliz'),
+('1009', 'Jorge Luis', 'Camacho Aguilera'),
+('1010', 'Patricia', 'Villanueva Ortiz');
+
+-- 10 Usuarios (Vinculados a los 10 empleados)
+INSERT INTO USUARIOS (username, password_hash, estado, cod_empleado) VALUES
+('cmendoza', '$2y$10$e0myJwZ.gX8/', TRUE, 1),
+('agomez', '$2y$10$e0myJwZ.gX8/', TRUE, 2),
+('jrojas', '$2y$10$e0myJwZ.gX8/', TRUE, 3),
+('lcastro', '$2y$10$e0myJwZ.gX8/', TRUE, 4),
+('lsuarez', '$2y$10$e0myJwZ.gX8/', FALSE, 5), -- Usuario inactivo de prueba
+('smamani', '$2y$10$e0myJwZ.gX8/', TRUE, 6),
+('dpinto', '$2y$10$e0myJwZ.gX8/', TRUE, 7),
+('mgutierrez', '$2y$10$e0myJwZ.gX8/', TRUE, 8),
+('jcamacho', '$2y$10$e0myJwZ.gX8/', TRUE, 9),
+('pvillanueva', '$2y$10$e0myJwZ.gX8/', TRUE, 10);
+
+-- 10 Clientes
+INSERT INTO CLIENTES (ci, nombre, apellidos, direccion, telefono) VALUES
+('7001', 'Pedro', 'Alvarez Dorado', 'Av. Banzer Nro 450', '71020304'),
+('7002', 'Martha', 'Benitez Peña', 'Calle Aroma 123', '72030405'),
+('7003', 'Roberto', 'Calderon Paz', 'Barrio Equipetrol, C. 8', '73040506'),
+('7004', 'Lucia', 'Durand Ribera', 'Urb. Los Tocas', '74050607'),
+('7005', 'Fernando', 'Eguez Hurtado', 'Av. San Martin 789', '75060708'),
+('7006', 'Gabriela', 'Fernandez Sosa', 'Plan 3000, Calle 4', '76070809'),
+('7007', 'Hugo', 'Guzman Vaca', 'Av. Santos Dumont', '77080910'),
+('7008', 'Irene', 'Jimenez Melgar', 'Barrio Las Palmas', '78091011'),
+('7009', 'Javier', 'Lopez Mendez', 'Calle 21 de Calacoto', '79011122'),
+('7010', 'Daniela', 'Medina Rios', 'Av. Bush, Cond. El Sol', '70022233');
+
+-- 10 Productos (Registrados por el usuario 1 y 2)
+INSERT INTO PRODUCTOS (codBarras, descripcion, stock, precio_unitario, creado_por) VALUES
+('7770001', 'Papas Fritas Tradicionales Lays 150g', 50, 12.50, 1),
+('7770002', 'Gaseosa Coca Cola 2L', 100, 11.00, 1),
+('7770003', 'Chocolates Snickers 50g', 80, 7.00, 1),
+('7770004', 'Galletas Oreo Paquete Familiar', 60, 9.50, 1),
+('7770005', 'Nectar de Fruta Del Valle 1L', 40, 8.00, 2),
+('7770006', 'Pringles Original 137g', 35, 22.00, 2),
+('7770007', 'Doritos Queso Atrevido 145g', 45, 13.00, 2),
+('7770008', 'Agua Mineral Vital Sin Gas 2L', 120, 6.00, 2),
+('7770009', 'Gomitas Mogul Ositos 100g', 70, 6.50, 2),
+('7770010', 'Barra de Cereal Nature Valley', 90, 5.00, 2);
+
+-- 10 Pedidos (Ventas generales)
+INSERT INTO PEDIDOS (cod_cliente, fecha_compra, cantidad, cod_empleado, creado_por) VALUES
+(1, '2026-03-10 08:30:00', 3, 1, 1),
+(2, '2026-03-10 09:15:00', 2, 2, 2),
+(3, '2026-03-11 11:00:00', 5, 3, 3),
+(4, '2026-03-11 14:20:00', 1, 4, 4),
+(5, '2026-03-12 16:45:00', 4, 6, 6),
+(6, '2026-03-12 19:10:00', 2, 7, 7),
+(7, '2026-03-13 10:05:00', 6, 8, 8),
+(8, '2026-03-13 12:30:00', 3, 9, 9),
+(9, '2026-03-14 15:00:00', 1, 10, 10),
+(10, '2026-03-14 18:22:00', 4, 1, 1);
+
+-- 10 Detalles de Pedidos (Relación Pedido-Producto)
+INSERT INTO PEDIDO_PRODUCTOS (cod_producto, cod_pedido, cantidad, precio_unitario, descuento) VALUES
+(1, 1, 2, 12.50, 0.00), -- Pedido 1: 2 Papas Fritas
+(2, 1, 1, 11.00, 0.00), -- Pedido 1: 1 Coca Cola
+(3, 2, 2, 7.00, 1.00),  -- Pedido 2: 2 Snickers con descuento
+(4, 3, 5, 9.50, 0.00),  -- Pedido 3: 5 Galletas Oreo
+(5, 4, 1, 8.00, 0.00),  -- Pedido 4: 1 Néctar Del Valle
+(6, 5, 4, 22.00, 4.00), -- Pedido 5: 4 Pringles con descuento
+(7, 6, 2, 13.00, 0.00), -- Pedido 6: 2 Doritos
+(8, 7, 6, 6.00, 0.00),  -- Pedido 7: 6 Aguas Vital
+(9, 8, 3, 6.50, 0.50),  -- Pedido 8: 3 Gomitas
+(10, 9, 1, 5.00, 0.00); -- Pedido 9: 1 Barra Cereal
+
