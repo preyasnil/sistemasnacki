@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
     "codBarras":"750105521002",
-    "descripcion":"prueba nuevo producto 3kg",
+    "descripcion":"Arroz integral 3kg",
     "stock":85,
     "precio_unitario":15,
     "creado_por":2,

@@ -1,4 +1,5 @@
-import { getUserList } from './components/UserList.js';
+﻿import { getUserList } from './components/UserList.js';
+import { initProductList } from './components/ProductList.js';
 
 const app = document.getElementById('app');
 const pageTitle = document.getElementById('pageTitle');
@@ -33,14 +34,15 @@ const views = {
         app.innerHTML = await res.text();
         pageTitle.textContent = titles.users;
         setActiveLink('users');
-        const res=await getUserList();
-        console.log("Resultado",res);
+        const res1=await getUserList();
+        console.log("Resultado",res1);
     },
     products: async () => {
         const res = await fetch('./src/views/products.html');
         app.innerHTML = await res.text();
         pageTitle.textContent = titles.products;
         setActiveLink('products');
+        initProductList();
     }
 };
 
@@ -55,3 +57,4 @@ navLinks.forEach(link => {
 });
 
 views.home();
+

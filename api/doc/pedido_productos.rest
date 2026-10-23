@@ -1,0 +1,2 @@
+### Consulta de pedido_productos
+GET http://api.snack/

@@ -43,11 +43,13 @@ export const getUserList = async () => {
     container.addEventListener('click', onClick);
     try {
         const users = await api.get('users');
+        console.log(users);
         container.innerHTML = users.map(user => `
             <tr class="hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4 text-sm text-gray-900">${user.id}</td>
                 <td class="px-6 py-4 text-sm text-gray-900 font-medium">${user.username}</td>
                 <td class="px-6 py-4">${renderEstado(user.estado)}</td>
+                <td class="px-6 py-4">${renderEstado(user.password_hash)}</td>
                 <td class="px-6 py-4">
                     <div class="flex items-center justify-center gap-2">
                         <button data-action="view" data-id="${user.id}" data-username="${user.username}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition-colors">

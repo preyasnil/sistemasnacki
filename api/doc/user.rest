@@ -1,3 +1,2 @@
 ### Consulta de usuario
 GET http://api.snack/users
-

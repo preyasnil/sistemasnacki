@@ -12,6 +12,8 @@ require_once "../src/Controllers/UserController.php";
 require_once "../src/Controllers/ProductoController.php";
 require_once "../src/Controllers/ClienteController.php";
 require_once "../src/Controllers/EmpleadoController.php";
+require_once "../src/Controllers/PedidoController.php";
+require_once "../src/Controllers/Pedido_productoController.php";
 
 
 use App\Router;

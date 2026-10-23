@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS DBsistemasnack;
 CREATE DATABASE DBsistemasnack;
-USE DBsistemasnack;
+USERS DBsistemasnack;
 
 -- =========================================================================
 -- 1. CREACIÓN DE TABLAS

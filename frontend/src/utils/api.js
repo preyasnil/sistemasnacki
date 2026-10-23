@@ -1,4 +1,4 @@
-const API_URL = 'http://api.sistemasexto/';
+const API_URL = 'http://api.snack/';
 
 export const api={
     //funcion para obtener data de la api
