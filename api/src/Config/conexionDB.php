@@ -43,5 +43,5 @@ class ConexionPDO
         } catch (Exception $e) {
             die("Existe error al procesar datos" . $e->getMessage());
         }
-    }
+    }     
 }

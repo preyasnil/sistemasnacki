@@ -1,28 +1,32 @@
-﻿<section class="products-page">
-    <div class="products-heading">
-        <div>
-            <h2>Productos</h2>
-            <p>Inventario de productos registrados</p>
-        </div>
-        <button class="products-button" id="refreshProducts" type="button">Actualizar lista</button>
+﻿<div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Productos</h2>
+    <!-- Corregido: "+ Nuevo Producto" en lugar de Usuario -->
+<button class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">+ Nuevo Producto</button>
+</div>
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="p-4 border-b border-gray-100 bg-gray-50">
+        <!-- Corregido: Texto orientado a productos -->
+        <p class="text-sm text-gray-500">Listado de productos registrados</p>
     </div>
-    <div class="products-card">
-        <div class="products-table-wrapper">
-            <table class="products-table">
-                <thead>
-                    <tr>
-                        <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">ID</th>
-                        <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Código de barras</th>
-                        <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Descripción</th>
-                        <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Stock</th>
-                        <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Precio unitario</th>
-                        <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha de registro</th>
-                    </tr>
-                </thead>
-                <tbody id="productsTableBody">
-                    <!-- Las filas se generarán dinámicamente con JavaScript -->
-                </tbody>
-            </table>
-        </div>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-gray-50 border-b border-gray-100">
+                    <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">ID</th>
+                    <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Código de barras</th>
+                    <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Descripción</th>
+                    <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Stock</th>
+                    <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Precio unitario</th>
+                    <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha de registro</th>
+                </tr>
+            </thead>
+            <!-- Corregido: ID cambiado a productTableList -->
+            <tbody id="productTableList" class="divide-y divide-gray-100">
+                <tr>
+                    <!-- Corregido: colspan="6" porque hay 6 columnas, y texto modificado a productos -->
+                    <td class="px-6 py-8 text-center text-gray-400" colspan="6">No hay productos registrados</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-</section>
+</div>

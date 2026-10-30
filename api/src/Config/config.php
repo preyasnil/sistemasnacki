@@ -1,5 +1,5 @@
 <?php
-$path = dirname(_DIR_, 2) . '/.env';
+$path = dirname(__DIR__, 2) . '/.env';
 $config = file_exists($path) ? parse_ini_file($path) : [];
 
 define("HOST", getenv('DB_HOST') ?: ($config['DB_HOST'] ?? ''));
